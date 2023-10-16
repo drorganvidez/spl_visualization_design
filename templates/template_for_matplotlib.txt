@@ -1,0 +1,25 @@
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots()
+ax.set_title("{{ title }}")
+ax.set_xlabel("{{ xaxis_label }}")
+ax.set_ylabel("{{ yaxis_label }}")
+
+{% if x_log_scale %} ax.set_xscale('log') {% endif %}
+{% if y_log_scale %} ax.set_yscale('log') {% endif %}
+
+{% for plot in plots %}
+data = []
+with open("{{ plot.csv_file }}", 'r') as f:
+    for line in f:
+        parts = line.split("{{ plot.separator }}")
+        x = float(parts[{{ plot.xaxis_column }}])
+        y = float(parts[{{ plot.yaxis_column }}])
+        data.append((x, y))
+x_data, y_data = zip(*data)
+ax.plot(x_data, y_data, marker="{{ plot.mark }}", color="{{ plot.color }}", label="{{ plot.name }}")
+{% endfor %}
+
+{% if legend_pos %} ax.legend(loc="{{ legend_pos }}") {% endif %}
+
+plt.show()

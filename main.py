@@ -231,6 +231,9 @@ if __name__ == '__main__':
     parser.add_argument('-t', dest='type', type=str, required=False,
                         help='Type of visualization (t = graph, t = table')
 
+    parser.add_argument('-matplotlib', dest='matplotlib', type=str, required=False,
+                        help='')
+
     args = parser.parse_args()
 
     # Identify configurations and attributes files
@@ -310,6 +313,9 @@ if __name__ == '__main__':
         with open('visualization_table.tex', 'w', encoding='utf-8') as file:
             file.write(content)
 
+    if type == "matplotlib":
+        # Load the feature models
+        fms = load_feature_models_table()
 
     # print(f'MAPPING MODEL: {mapping_model}')
     # print(f'CONFIGURATIONS: {configurations}')
